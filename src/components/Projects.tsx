@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { X, Store } from 'lucide-react';
-import portadaPupuseria from '@/assets/PortadaDePupuseria.webp';
+import portadaPupuseria from '@/assets/PortadadePupuseria.webp';
 import portadaEcommerce from '@/assets/PortadadeEcomerce.webp';
 import portadaTurboAuto from '@/assets/PortadadeTurboAuto.webp';
 

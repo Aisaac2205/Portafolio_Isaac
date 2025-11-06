@@ -10,6 +10,8 @@ restartPolicyType = "on_failure"
 [env]
 NODE_ENV = "production"
 PORT = "${{PORT}}"
+VITE_SITE_URL = "https://portafolioisaac-production.up.railway.app"
+VITE_FRONTEND_URL = "https://portafolioisaac-production.up.railway.app"
 
 # Métricas y monitoreo
 [monitoring]
