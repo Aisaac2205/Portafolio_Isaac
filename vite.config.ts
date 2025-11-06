@@ -20,11 +20,6 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  preview: {
-    host: true,
-    port: 4173,
-    strictPort: false,
-  },
   build: {
     cssCodeSplit: true,
     sourcemap: false,
