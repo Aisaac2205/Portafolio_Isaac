@@ -1,8 +1,23 @@
 [build]
-builder = "NIXPACKS"
+builder = "nixpacks"
 
 [deploy]
 startCommand = "pnpm start"
-restartPolicyType = "ON_FAILURE"
-restartPolicyMaxRetries = 10
+healthcheckPath = "/"
+healthcheckTimeout = 300
+restartPolicyType = "on_failure"
+
+[env]
+NODE_ENV = "production"
+PORT = "${{PORT}}"
+
+# Métricas y monitoreo
+[monitoring]
+enabled = true
+metrics = ["cpu", "memory", "network", "disk"]
+
+# Configuración de logs
+[logs]
+retention = "7d"
+level = "info"
 
