@@ -1,23 +1,35 @@
 import { Button } from '@/components/ui/button';
 import { Github, Linkedin, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import Particles from 'react-tsparticles';
 import { loadSlim } from 'tsparticles-slim';
 import type { Engine } from 'tsparticles-engine';
 import heroImage from '@/assets/hero-bg.jpg';
+import { scrollToElement } from '@/hooks/use-lenis';
 
 const Hero = () => {
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToElement(`#${sectionId}`, { offset: -80, duration: 1.5 });
   };
 
+  // Detect device performance and disable particles on low-end devices
+  const [enableParticles, setEnableParticles] = useState(() => {
+    // Disable particles on mobile devices or low-end devices
+    if (typeof window !== 'undefined') {
+      const isMobile = window.innerWidth < 768;
+      const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      return !isMobile && !isLowEndDevice && !prefersReducedMotion;
+    }
+    return true;
+  });
+
   const particlesInit = useCallback(async (engine: Engine) => {
-    await loadSlim(engine);
-  }, []);
+    if (enableParticles) {
+      await loadSlim(engine);
+    }
+  }, [enableParticles]);
 
   const redirectToGitHub = () => {
     window.open('https://github.com/Aisaac2205', '_blank');
@@ -25,12 +37,13 @@ const Hero = () => {
 
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Animated Particles Background */}
-      <Particles
-        id="tsparticles"
-        init={particlesInit}
-        className="absolute inset-0"
-        options={{
+      {/* Animated Particles Background - Only on capable devices */}
+      {enableParticles && (
+        <Particles
+          id="tsparticles"
+          init={particlesInit}
+          className="absolute inset-0"
+          options={{
           fpsLimit: 120,
           interactivity: {
             events: {
@@ -94,12 +107,15 @@ const Hero = () => {
           },
           detectRetina: true,
         }}
-      />
+        />
+      )}
 
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
         style={{ backgroundImage: `url(${heroImage})` }}
+        role="img"
+        aria-label="Imagen de fondo decorativa"
       />
       
       {/* Gradient Overlay */}
@@ -115,7 +131,7 @@ const Hero = () => {
             transition={{ duration: 0.6 }}
           >
             <span className="inline-block px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
-              👋 ¡Hola! Soy Full Stack Developer
+              ¡Hola! Soy Full Stack Developer
             </span>
           </motion.div>
           
