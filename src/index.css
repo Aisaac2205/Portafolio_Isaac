@@ -92,6 +92,7 @@
   
   html {
     /* scroll-behavior: smooth; - Removido porque Lenis maneja el scroll suave */
+    @apply bg-background;
   }
 
   /* Respect reduced motion preferences */
